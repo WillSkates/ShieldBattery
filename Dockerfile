@@ -1,6 +1,3 @@
-# Get sqlx-cli so we can run migrations (Linux version needs to match what we run on below)
-FROM ghcr.io/shieldbattery/shieldbattery/base:sqlx-tools AS rust-tools
-
 # Install dependencies in a separate stage for better caching
 FROM node:22-alpine AS deps
 RUN corepack enable
@@ -44,7 +41,7 @@ ENV NODE_ENV=production
 ENV SB_PREBUILT_ASSETS=true
 
 # Also, we need python to execute some python scripts (e.g. `s3cmd`).
-RUN apk add --no-cache bash logrotate jq python3 py-pip s3cmd
+RUN apk add --no-cache bash logrotate jq python3 py-pip s3cmd sqlx
 
 # Install the dependencies of the `s3cmd` python script (--break-system-packages because otherwise
 # we'd need a virtualenv, which is overkill since we're not using python for anything else)
